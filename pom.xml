@@ -10,6 +10,7 @@
     <modules>
         <module>mall-registry</module>
         <module>mall-gateway</module>
+        <module>mall-item</module>
     </modules>
     <packaging>pom</packaging>
 
