@@ -1,4 +1,4 @@
-package com.mall.service;
+package com.mall.item.service;
 
 import com.mall.common.enums.ExceptionEnum;
 import com.mall.common.exception.MallException;

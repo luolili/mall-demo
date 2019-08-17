@@ -1,7 +1,8 @@
-package com.mall.web;
+package com.mall.item.web;
 
 import com.mall.item.pojo.Category;
-import com.mall.service.CategoryService;
+import com.mall.item.service.BrandService;
+import com.mall.item.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +24,11 @@ import java.util.List;
  * 允许：响应头：包含当前网站域名+access control allow credential
  */
 @RestController
-@RequestMapping("category")
-public class CategoryController {
+@RequestMapping("brand")
+public class BrandController {
 
     @Autowired
-    private CategoryService categoryService;
+    private BrandService brandService;
 
     @GetMapping("list")
     public ResponseEntity<List<Category>> getListByPid(@RequestParam("pid") Long pid) {
