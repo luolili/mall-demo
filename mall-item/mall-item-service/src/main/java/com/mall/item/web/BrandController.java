@@ -1,5 +1,7 @@
 package com.mall.item.web;
 
+import com.mall.common.vo.PageResult;
+import com.mall.item.pojo.Brand;
 import com.mall.item.pojo.Category;
 import com.mall.item.service.BrandService;
 import com.mall.item.service.CategoryService;
@@ -30,8 +32,13 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-    @GetMapping("list")
-    public ResponseEntity<List<Category>> getListByPid(@RequestParam("pid") Long pid) {
-        return ResponseEntity.ok(categoryService.queryCategoryListByPid(pid));
+    @GetMapping("page")
+    public ResponseEntity<PageResult<Brand>> getListByPid(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "5") Integer rows,
+            @RequestParam(value = "sortedBy", required = false) String sortedBy,
+            @RequestParam(value = "desc", defaultValue = "false") Boolean desc,
+            @RequestParam(value = "key", required = false) String key) {
+        return ResponseEntity.ok(brandService.queryBrandByPage(page,rows,sortedBy,desc,key));
     }
 }
