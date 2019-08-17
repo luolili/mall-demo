@@ -11,6 +11,7 @@
         <module>mall-registry</module>
         <module>mall-gateway</module>
         <module>mall-item</module>
+        <module>mall-common</module>
     </modules>
     <packaging>pom</packaging>
 

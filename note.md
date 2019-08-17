@@ -3,6 +3,10 @@
  - 建注册中心模块：mall-registry
  - 建gateway: mall-gateway
  - 建商品模块：拆分商品模块：item
+ - common工具
+ 
+ 统一异常处理：
+ 
  
  启动：test:启动顺序：registry, item,gateway
  1.Failed to configure a DataSource: 'url' attribute is not specified
