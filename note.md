@@ -3,9 +3,11 @@
  - 建注册中心模块：mall-registry
  - 建gateway: mall-gateway
  - 建商品模块：拆分商品模块：item
- - common工具
+ - common工具模块
  
- 统一异常处理：
+  - 统一异常处理
+ 
+ 设置域名在hosts
  
  
  启动：test:启动顺序：registry, item,gateway
