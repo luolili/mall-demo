@@ -1,4 +1,4 @@
-serer:
+server:
   port: 10010
 
 spring:
@@ -12,6 +12,8 @@ eureka:
 
 zuul:
   prefix: /api #
+  routes:
+    item-service: /item/**
 
 hystrix:
   command:

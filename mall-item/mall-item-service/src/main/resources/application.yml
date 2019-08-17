@@ -1,0 +1,20 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: item-service
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1/springcloud-mall?serverTimezone=UTC&characterEncoding=utf-8&userSSL=false
+    username: root
+    password: 123
+    driver-class-name: com.mysql.jdbc.Driver
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
