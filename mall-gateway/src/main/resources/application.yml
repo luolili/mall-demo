@@ -1,0 +1,29 @@
+serer:
+  port: 10010
+
+spring:
+  application:
+    name: mall-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+
+zuul:
+  prefix: /api #
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+
+ribbon:
+  ConnectionTimeout: 1000
+  ReadTimeout: 3500
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0

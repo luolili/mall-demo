@@ -1,0 +1,11 @@
+serer:
+  port: 10086
+
+spring:
+  application:
+    name: mall-registry
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
