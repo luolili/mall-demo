@@ -23,10 +23,7 @@ public class BrandService {
     @Autowired
     private BrandMapper brandMapper;
 
-
     public PageResult<Brand> queryBrandByPage(Integer page, Integer rows, String sortedBy, Boolean desc, String key) {
-
-
         PageHelper.startPage(page, rows);
         Example example = new Example(Brand.class);
 
@@ -38,16 +35,21 @@ public class BrandService {
             String orderByClause = sortedBy + (desc ? " DESC" : "ASC");
             example.setOrderByClause(orderByClause);
         }
-
         List<Brand> brands = brandMapper.selectByExample(example);
-
-        PageInfo<Brand> info = new PageInfo<>(brands);
         if (CollectionUtils.isEmpty(brands)) {
             throw new MallException(ExceptionEnum.BRAND_NOT_FOUND);
         }
+        PageInfo<Brand> info = new PageInfo<>(brands);
         return new PageResult<Brand>(info.getTotal(), brands);
     }
 
+    public Brand queryById(Long id) {
+        Brand brand = brandMapper.selectByPrimaryKey(id);
+        if (brand == null) {
+            throw new MallException(ExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return brand;
+    }
     @Transactional
     public void saveBrand(Brand brand, List<Long> cids) {
         brand.setId(null);
