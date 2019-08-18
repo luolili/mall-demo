@@ -32,4 +32,9 @@ public class GoodsController {
     }
 
 
+    @PostMapping("")
+    public ResponseEntity<Void> saveGoods(@RequestBody Spu spu) {
+        goodsService.saveGoods(spu);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }

@@ -33,6 +33,11 @@ public class BrandController {
         return ResponseEntity.ok(brandService.queryBrandByPage(page,rows,sortedBy,desc,key));
     }
 
+    @GetMapping("/cid/{cid}")
+    public ResponseEntity<List<Brand>> queryBrandListByCid(@PathVariable("cid") Long cid) {
+        return ResponseEntity.ok(brandService.queryBrandListByCid(cid));
+    }
+
     @PostMapping
     public ResponseEntity<Void> saveBrand(Brand brand, @RequestParam("cids") List<Long> cids) {
         brandService.saveBrand(brand, cids);

@@ -29,11 +29,14 @@ public class SpecificationController {
             @PathVariable("cid") Long cid) {
         return ResponseEntity.ok(specificationService.queryGroupListByCid(cid));
     }
-    //根据商规格组id查询规格参数集合
+
+    //根据商规格组id, 分类id，是否搜索 查询规格参数集合
     @GetMapping("params")
     public ResponseEntity<List<SpecParam>> queryParamListByGid(
-            @RequestParam("gid") Long gid) {
-        return ResponseEntity.ok(specificationService.queryParamListByGid(gid));
+            @RequestParam(value = "gid", required = false) Long gid,
+            @RequestParam(value = "cid", required = false) Long cid,
+            @RequestParam(value = "searching", required = false) Boolean searching) {
+        return ResponseEntity.ok(specificationService.queryParamList(gid, cid, searching));
     }
 
 }

@@ -14,9 +14,11 @@ public enum ExceptionEnum {
     SPEC_GROUP_NOT_FOUND(404, "商品规格组没查到"),
     SPEC_PARAM_NOT_FOUND(404, "规格参数没查到"),
     BRAND_NOT_FOUND(405,"品牌没查到"),
+    GOODS_NOT_FOUND(405, "商品没查到"),
     BRAND_SAVE_ERROR(500,"品牌保存出错"),
     UPLOAD_ERROR(500,"文件上传出错"),
     INVALID_FILE_TYPE(400,"无效的文件类型"),
+    GOODS_SAVE_ERROR(500, "保存商品失败"),
     ;
 
     private int code;

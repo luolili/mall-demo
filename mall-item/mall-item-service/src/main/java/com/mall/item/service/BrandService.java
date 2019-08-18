@@ -12,6 +12,7 @@ import com.mall.item.pojo.Category;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -58,11 +59,21 @@ public class BrandService {
             throw new MallException(ExceptionEnum.BRAND_SAVE_ERROR);
         }
         for (Long cid : cids) {
-             count = brandMapper.insertCategoryBrand(cid, brand.getId());
+            count = brandMapper.insertCategoryBrand(cid, brand.getId());
             if (count != 1) {
                 throw new MallException(ExceptionEnum.BRAND_SAVE_ERROR);
             }
         }
+
+    }
+
+    public List<Brand> queryBrandListByCid(Long cid) {
+        List<Brand> brands = brandMapper.queryBrandListByCid(cid);
+        if (CollectionUtils.isEmpty(brands)) {
+            throw new MallException(ExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return brands;
+
 
     }
 }
