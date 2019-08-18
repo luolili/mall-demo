@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -130,5 +127,37 @@ public class GoodsService {
             throw new MallException(ExceptionEnum.SPU_DETAIL_NOT_FOUND);
         }
         return res;
+    }
+
+    public List<Sku> querySkuListBySpuId(Long spuId) {
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+        List<Sku> list = skuMapper.select(sku);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new MallException(ExceptionEnum.SKU_NOT_FOUND);
+        }
+        //查询库存
+      /*  for (Sku s : list) {
+            Stock stock = stockMapper.selectByPrimaryKey(s.getId());
+            if (stock == null) {
+                throw new MallException(ExceptionEnum.STOCK_NOT_FOUND);
+            }
+            s.setStock(stock.getStock());
+        }*/
+
+        List<Long> skuIds = list.stream().map(Sku::getId).collect(Collectors.toList());
+        List<Stock> stockList = stockMapper.selectByIdList(skuIds);
+
+        if (CollectionUtils.isEmpty(stockList)) {
+            throw new MallException(ExceptionEnum.STOCK_NOT_FOUND);
+        }
+
+        //skuId与stock的map
+        Map<Long, Integer> stockMap =
+                stockList.stream().collect(Collectors.toMap(Stock::getSkuId, Stock::getStock));
+        list.forEach(i -> i.setStock(stockMap.get(i.getId())));
+
+
+        return list;
     }
 }

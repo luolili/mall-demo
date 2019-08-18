@@ -12,6 +12,8 @@ public enum ExceptionEnum {
     PRICE_CANNOT_BE_NULL(400,"价格不能为空"),
     CATEGORY_NOT_FOUND(404,"商品分类没查到"),
     SPU_DETAIL_NOT_FOUND(404, "商品详情没查到"),
+    SKU_NOT_FOUND(404, "商品sku没查到"),
+    STOCK_NOT_FOUND(404, "商品库存没查到"),
     SPEC_GROUP_NOT_FOUND(404, "商品规格组没查到"),
     SPEC_PARAM_NOT_FOUND(404, "规格参数没查到"),
     BRAND_NOT_FOUND(405,"品牌没查到"),
