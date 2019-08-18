@@ -11,9 +11,13 @@ eureka:
       defaultZone: http://localhost:10086/eureka
 
 zuul:
-  prefix: /api #
+  prefix: /api # 路由的前缀
   routes:
     item-service: /item/**
+    upload-service:
+      path: /upload/**
+      serviceId: upload-service
+      strip-prefix: false #去掉upload前缀
 
 hystrix:
   command:
