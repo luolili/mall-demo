@@ -113,7 +113,22 @@ public class GoodsService {
             stockList.add(stock);
         }
         //批量新增stock
-        stockMapper.insertList(stockList);
+        count = stockMapper.insertList(stockList);
 
+        if (count != stockList.size()) {
+            throw new MallException(ExceptionEnum.GOODS_SAVE_ERROR);
+        }
+
+    }
+
+    public SpuDetail queryDetailById(Long id) {
+        SpuDetail spuDetail = new SpuDetail();
+        spuDetail.setSpuId(id);
+        SpuDetail res = spuDetailMapper.selectByPrimaryKey(spuDetail);
+
+        if (res == null) {
+            throw new MallException(ExceptionEnum.SPU_DETAIL_NOT_FOUND);
+        }
+        return res;
     }
 }

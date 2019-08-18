@@ -3,6 +3,7 @@ package com.mall.item.web;
 import com.mall.common.vo.PageResult;
 import com.mall.item.pojo.Brand;
 import com.mall.item.pojo.Spu;
+import com.mall.item.pojo.SpuDetail;
 import com.mall.item.service.BrandService;
 import com.mall.item.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,15 @@ public class GoodsController {
     }
 
 
-    @PostMapping("")
+    @PostMapping("goods")
     public ResponseEntity<Void> saveGoods(@RequestBody Spu spu) {
         goodsService.saveGoods(spu);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/spu/detail/{id}")
+    public ResponseEntity<SpuDetail> queryDetailById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(goodsService.queryDetailById(id));
+    }
+
 }
