@@ -11,6 +11,7 @@
         <module name="mall-item-interface" />
         <module name="mall-item-service" />
         <module name="mall-registry" />
+        <module name="mall-upload" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,7 @@
       <module name="mall-item-interface" options="-parameters" />
       <module name="mall-item-service" options="-parameters" />
       <module name="mall-registry" options="-parameters" />
+      <module name="mall-upload" options="-parameters" />
     </option>
   </component>
 </project>

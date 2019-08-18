@@ -8,5 +8,6 @@
     <file url="file://$PROJECT_DIR$/mall-item/mall-item-interface" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mall-item/mall-item-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mall-registry" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-upload" charset="UTF-8" />
   </component>
 </project>
