@@ -1,6 +1,5 @@
 package com.mall.item.vo;
 
-import javax.persistence.Transient;
 import java.util.Date;
 
 public class SpuVO {

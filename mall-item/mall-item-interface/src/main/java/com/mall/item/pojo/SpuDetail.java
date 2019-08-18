@@ -1,11 +1,8 @@
 package com.mall.item.pojo;
 
 import lombok.Data;
-import tk.mybatis.mapper.annotation.KeySql;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 /**
  * 表的垂直拆分：提高查询效率

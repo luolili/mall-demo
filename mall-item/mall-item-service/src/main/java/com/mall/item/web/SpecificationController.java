@@ -1,13 +1,9 @@
 package com.mall.item.web;
 
-import com.mall.common.vo.PageResult;
-import com.mall.item.pojo.Brand;
 import com.mall.item.pojo.SpecGroup;
 import com.mall.item.pojo.SpecParam;
-import com.mall.item.service.BrandService;
 import com.mall.item.service.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

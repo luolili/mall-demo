@@ -90,7 +90,7 @@ public class GoodsService {
         //保存 spu detail
         SpuDetail spuDetail = spu.getSpuDetail();
         spuDetail.setSpuId(spu.getId());
-        count = spuDetailMapper.insert(spuDetail);
+        spuDetailMapper.insert(spuDetail);
         //sku
         List<Sku> skus = spu.getSkus();
         for (Sku sku : skus) {

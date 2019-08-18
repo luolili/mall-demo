@@ -9,7 +9,7 @@
  
  设置域名在hosts
  
- 
+ - ES:商品搜索
  启动：test:启动顺序：registry, item,gateway
  1.Failed to configure a DataSource: 'url' attribute is not specified
  

@@ -1,7 +1,6 @@
 package com.mall.item.mapper;
 
 
-import com.mall.item.pojo.SpecGroup;
 import com.mall.item.pojo.SpecParam;
 import tk.mybatis.mapper.common.Mapper;
 
