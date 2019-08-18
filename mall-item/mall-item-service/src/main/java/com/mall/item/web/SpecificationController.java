@@ -29,7 +29,6 @@ public class SpecificationController {
             @PathVariable("cid") Long cid) {
         return ResponseEntity.ok(specificationService.queryGroupListByCid(cid));
     }
-
     //根据商规格组id查询规格参数集合
     @GetMapping("params")
     public ResponseEntity<List<SpecParam>> queryParamListByGid(
