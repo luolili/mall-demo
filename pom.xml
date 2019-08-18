@@ -12,6 +12,7 @@
         <module>mall-gateway</module>
         <module>mall-item</module>
         <module>mall-common</module>
+        <module>mall-upload</module>
     </modules>
     <packaging>pom</packaging>
 
