@@ -1,7 +1,7 @@
 spring:
   data:
     elasticsearch:
-      cluster-name: elasticsearch
-      cluster-nodes: 127.0.0.1:9300
+      cluster-name: elasticsearch #默认名
+      cluster-nodes: 127.0.0.1:9300 # 9300 默认端口
       repositories:
         enabled: true

@@ -8,4 +8,5 @@ import java.util.List;
 public interface ItemRepo extends ElasticsearchRepository<Item, Long> {
     //带命名规则的查询
     List<Item> findByPriceBetween(Double begin, Double end);
+
 }
