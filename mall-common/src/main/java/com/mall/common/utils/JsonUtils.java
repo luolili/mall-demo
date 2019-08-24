@@ -52,5 +52,10 @@ public class JsonUtils {
         return map;
     }
 
+    public static Map<String, List<Object>> nativeRead(String str) {
+        return null;
+    }
+
+
 
 }

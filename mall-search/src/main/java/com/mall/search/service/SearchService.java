@@ -11,6 +11,7 @@ import com.mall.search.client.SpecificationClient;
 import com.mall.search.pojo.Goods;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -79,8 +80,10 @@ public class SearchService {
         String genericSpecJson = spuDetail.getGenericSpec();
         String specialSpecJson = spuDetail.getSpecialSpec();
         Map<String, Object> genericMap = JsonUtils.toMap(genericSpecJson);
-        Map<String, Object> specialMap = JsonUtils.toMap(specialSpecJson);
+        Map<String, List<Object>> specialMap = JsonUtils.nativeRead(specialSpecJson);
 
+        Map<String, Object> specs = new HashMap<>();
+        specs = change(specParams, genericMap, specialMap);
 
         String all = spu.getName() + StringUtils.join(categoryNameList, " ")
                 + brand.getName();
@@ -96,8 +99,53 @@ public class SearchService {
         goods.setAll("");// TODO
         goods.setSpecs(null);
         goods.setSubTitle(spu.getSubTitle());
-
-
-        return null;
+        return goods;
     }
+
+    private Map<String, Object> change(List<SpecParam> params, Map<String, Object> genericMap,
+                                       Map<String, List<Object>> specialMap) {
+        Map<String, Object> specs = new HashMap<>();
+        for (SpecParam param : params) {
+            String name = param.getName();//key
+            Object value = "";
+            //判断是否是generic
+            if (param.getGeneric()) {
+                value = genericMap.get(String.valueOf(param.getId()));
+                if (param.getNumeric()) {
+                    value = chooseSegment(value.toString(), param);
+                }
+            } else {
+                value = specialMap.get(String.valueOf(param.getId()));
+            }
+            specs.put(name, value);
+        }
+        return specs;
+    }
+
+    private String chooseSegment(String value, SpecParam param) {
+        double val = NumberUtils.toDouble(value);
+
+        String result = "other";
+        for (String segment : param.getSegments().split(",")) {
+            String[] args = segment.split("-");
+            double begin = NumberUtils.toDouble(args[0]);
+
+            double end = Double.MAX_VALUE;
+            if (args.length == 2) {
+                end = NumberUtils.toDouble(args[1]);
+            }
+            if (val >= begin && val < end) {
+                if (args.length == 1) {
+                    result = args[0] + param.getUnit() + "以上";
+                } else if (begin == 0) {
+                    result = args[1] + param.getUnit() + "以下";
+                } else {
+                    result = segment + param.getUnit();
+                }
+                break;
+            }
+        }
+        return result;
+    }
+
 }

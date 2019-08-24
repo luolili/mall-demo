@@ -35,7 +35,7 @@ public class GoodsService {
     @Autowired
     private BrandService brandService;
 
-    public PageResult<Spu> querySpuByPage(Integer page, Integer rows, String saleable, String key) {
+    public PageResult<Spu> querySpuByPage(Integer page, Integer rows, Boolean saleable, String key) {
         PageHelper.startPage(page, rows);
         Example example = new Example(Brand.class);
         Example.Criteria criteria = example.createCriteria();
