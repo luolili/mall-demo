@@ -53,7 +53,7 @@ public class JsonUtils {
     }
 
     public static Map<String, List<Object>> nativeRead(String str) {
-        return null;
+        return new HashMap<>();
     }
 
 

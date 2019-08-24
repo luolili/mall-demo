@@ -3,16 +3,27 @@ package com.mall.search.service;
 import com.mall.common.enums.ExceptionEnum;
 import com.mall.common.exception.MallException;
 import com.mall.common.utils.JsonUtils;
+import com.mall.common.vo.PageResult;
 import com.mall.item.pojo.*;
+import com.mall.repo.GoodsRepo;
 import com.mall.search.client.BrandClient;
 import com.mall.search.client.CategoryClient;
 import com.mall.search.client.GoodsClient;
 import com.mall.search.client.SpecificationClient;
 import com.mall.search.pojo.Goods;
+import com.mall.search.pojo.SearchRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +31,7 @@ import java.util.stream.Collectors;
 /**
  * 吧查出来的数据封装到Goods里面
  */
+@Service
 public class SearchService {
 
     @Autowired
@@ -30,9 +42,12 @@ public class SearchService {
 
     @Autowired
     private BrandClient brandClient;
+
     @Autowired
     private SpecificationClient specificationClient;
 
+    @Autowired
+    private GoodsRepo goodsRepo;
     public Goods buildGoods(Spu spu) {
         Long spuId = spu.getId();
         //查询分类
@@ -148,4 +163,25 @@ public class SearchService {
         return result;
     }
 
+    public PageResult<Goods> search(SearchRequest request) {
+        int page = request.getPage();
+        int size = request.getSize();
+        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+        nativeSearchQueryBuilder
+                .withSourceFilter(new FetchSourceFilter(new String[]{"id", "subTitle", "skus"}, null));
+        //分页
+        nativeSearchQueryBuilder.withPageable(PageRequest.of(page, size));
+
+        //filter
+        nativeSearchQueryBuilder
+                .withQuery(QueryBuilders.matchQuery("all", request.getKey()));
+
+        Page<Goods> goodsPage = goodsRepo.search(nativeSearchQueryBuilder.build());
+        long total = goodsPage.getTotalElements();
+        int totalPages = goodsPage.getTotalPages();
+        List<Goods> content = goodsPage.getContent();
+        return new PageResult<>(total, totalPages, content);
+
+
+    }
 }
