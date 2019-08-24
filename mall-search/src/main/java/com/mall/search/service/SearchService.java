@@ -12,14 +12,21 @@ import com.mall.search.client.GoodsClient;
 import com.mall.search.client.SpecificationClient;
 import com.mall.search.pojo.Goods;
 import com.mall.search.pojo.SearchRequest;
+import com.mall.search.pojo.SearchResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -48,6 +55,10 @@ public class SearchService {
 
     @Autowired
     private GoodsRepo goodsRepo;
+
+    @Autowired
+    private ElasticsearchTemplate template;
+
     public Goods buildGoods(Spu spu) {
         Long spuId = spu.getId();
         //查询分类
@@ -111,7 +122,7 @@ public class SearchService {
         goods.setId(spu.getId());
         goods.setPrice(priceList);//商品价格的集合
         goods.setSkus(JsonUtils.toString(skus));//商品sku的集合
-        goods.setAll("");// TODO
+        goods.setAll(all);
         goods.setSpecs(null);
         goods.setSubTitle(spu.getSubTitle());
         return goods;
@@ -164,7 +175,7 @@ public class SearchService {
     }
 
     public PageResult<Goods> search(SearchRequest request) {
-        int page = request.getPage();
+        int page = request.getPage() - 1;// 页数从0开始
         int size = request.getSize();
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         nativeSearchQueryBuilder
@@ -176,12 +187,53 @@ public class SearchService {
         nativeSearchQueryBuilder
                 .withQuery(QueryBuilders.matchQuery("all", request.getKey()));
 
-        Page<Goods> goodsPage = goodsRepo.search(nativeSearchQueryBuilder.build());
+        //agg
+        String categoryAggName = "category_agg";
+        String brandAggName = "brand_agg";
+        nativeSearchQueryBuilder.addAggregation(AggregationBuilders.terms(categoryAggName)
+                .field("cid3"));
+        nativeSearchQueryBuilder.addAggregation(AggregationBuilders.terms(brandAggName)
+                .field("brandId"));
+
+        AggregatedPage<Goods> goodsPage =
+                template.queryForPage(nativeSearchQueryBuilder.build(), Goods.class);
+
+        // agg 解析
+        Aggregations aggregations = goodsPage.getAggregations();
+        Aggregation categoryAgg = aggregations.get(categoryAggName);
+        Aggregation brandAgg = aggregations.get(brandAggName);
+        List<Category> categoryList = parseCategoryAgg((LongTerms) categoryAgg);
+        List<Brand> brandList = parseBrandAgg((LongTerms) brandAgg);
+
         long total = goodsPage.getTotalElements();
         int totalPages = goodsPage.getTotalPages();
         List<Goods> content = goodsPage.getContent();
-        return new PageResult<>(total, totalPages, content);
+        return new SearchResult(total, totalPages, content, categoryList, brandList);
 
 
     }
+
+    private List<Category> parseCategoryAgg(LongTerms aggregation) {
+        try {
+            List<Long> ids = aggregation.getBuckets()
+                    .stream()
+                    .map(b -> b.getKeyAsNumber().longValue()).collect(Collectors.toList());
+            return categoryClient.getListByIds(ids);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private List<Brand> parseBrandAgg(LongTerms aggregation) {
+        try {
+            List<Long> ids = aggregation.getBuckets()
+                    .stream()
+                    .map(b -> b.getKeyAsNumber().longValue()).collect(Collectors.toList());
+            return brandClient.queryBrandListByIds(ids);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
 }

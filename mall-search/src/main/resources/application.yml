@@ -12,6 +12,8 @@ spring:
       cluster-nodes: 127.0.0.1:9300 # 9300 默认端口
       repositories:
         enabled: true
+  jackson:
+    default-property-inclusion: non_null # 排除结果里面为null的字段，不让他显示到前台
 eureka:
   client:
     service-url:
