@@ -26,3 +26,14 @@
        <artifactId>hystrix-javanica</artifactId>
        <version>1.5.12</version>
    </dependency>
+   
+   
+ 3.    
+ The bean 'item-service.FeignClientSpecification', defined in null, 
+ could not be registered. A bean with that name has already been defined in null 
+ and overriding is disabled.
+ spring:
+    main:
+     allow-bean-definition-overriding: true 
+     
+ 在sprigboot2.1之前默认是true

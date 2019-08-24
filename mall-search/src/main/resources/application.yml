@@ -2,6 +2,8 @@ server:
   port: 8083
 
 spring:
+  main:
+    allow-bean-definition-overriding: true #在sprigboot2.1之前默认是true
   application:
     name: search-service
   data:

@@ -14,7 +14,7 @@ public class Goods {
 
     @Id
     Long id;//spuId
-    @Field(type = FieldType.Text, analyzer = "id_max_word")
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     String all;//所有的搜索信息：标题，品牌，分类
     @Field(type = FieldType.Keyword, index = false)
     String subTitle;//卖点
