@@ -12,6 +12,7 @@
         <module name="mall-item-interface" />
         <module name="mall-item-service" />
         <module name="mall-registry" />
+        <module name="mall-search" />
         <module name="mall-upload" />
       </profile>
     </annotationProcessing>
@@ -26,6 +27,7 @@
       <module name="mall-item-interface" options="-parameters" />
       <module name="mall-item-service" options="-parameters" />
       <module name="mall-registry" options="-parameters" />
+      <module name="mall-search" options="-parameters" />
       <module name="mall-upload" options="-parameters" />
     </option>
   </component>
