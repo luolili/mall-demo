@@ -1,5 +1,7 @@
 
 spring:
+  main:
+    allow-bean-definition-overriding: true #在sprigboot2.1之前默认是true
   application:
     name: mall-page
 
