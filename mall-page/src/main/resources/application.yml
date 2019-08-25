@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: mall-page
+
+  thymeleaf:
+    cache: false

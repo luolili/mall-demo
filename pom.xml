@@ -15,6 +15,7 @@
         <module>mall-upload</module>
         <module>es-demo</module>
         <module>mall-search</module>
+        <module>mall-page</module>
     </modules>
     <packaging>pom</packaging>
 

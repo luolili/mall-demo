@@ -36,4 +36,9 @@
     main:
      allow-bean-definition-overriding: true 
      
- 在sprigboot2.1之前默认是true
+ 在springboot2.1之前默认是true
+ 
+ #thymleaf
+ 默认在classpath:/templates; 默认后缀.html.
+
+ctrl+shift+f9:recompile html: 不用重启项目。

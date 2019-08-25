@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>
+    msg: <span th:text="${msg}"> </span>
+    <br>
+    test01: <span th:text="${user.getName()}"></span>,
+    <span th:text="${user.getFriend().getAge()}"></span>,
+    <span th:text="${user.age}"></span>,
+    <span th:text="${user.friend}"></span>,
+</h1>
+</body>
+</html>
