@@ -14,9 +14,9 @@ import java.util.List;
 
 public interface BrandApi {
 
-    @GetMapping("{id}")
+    @GetMapping("brand/{id}")
     Brand queryBrandListById(@PathVariable("id") Long id);
 
-    @GetMapping("brands")
+    @GetMapping("brand/brands")
     List<Brand> queryBrandListByIds(@RequestParam("ids") List<Long> ids);
 }
