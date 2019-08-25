@@ -18,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SpecificationService {
@@ -49,6 +52,26 @@ public class SpecificationService {
         List<SpecParam> list = specParamMapper.select(specParam);
         if (CollectionUtils.isEmpty(list)) {
             throw new MallException(ExceptionEnum.SPEC_PARAM_NOT_FOUND);
+        }
+        return list;
+    }
+
+    public List<SpecGroup> queryGroupListByGid(Long cid) {
+        List<SpecGroup> list = queryGroupListByCid(cid);
+        //先把分类下的所以规格参数查出来
+        List<SpecParam> specParams = queryParamList(null, cid, null);
+
+        //构造map: key:  geoup id--value:list<param>
+        Map<Long, List<SpecParam>> map = new HashMap<>();
+        for (SpecParam param : specParams) {
+            if (map.containsKey(param.getGroupId())) {
+                List<SpecParam> arrayList = new ArrayList<>();
+                map.put(param.getGroupId(), arrayList);
+            }
+            map.get(param.getGroupId()).add(param);
+        }
+        for (SpecGroup group : list) {
+            group.setParamList(map.get(group.getId()));
         }
         return list;
     }

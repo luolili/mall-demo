@@ -1,6 +1,19 @@
+
 spring:
   application:
     name: mall-page
 
   thymeleaf:
     cache: false
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+    registry-fetch-interval-seconds: 3
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+server:
+  port: 8084

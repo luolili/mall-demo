@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface GoodsApi {
+
+    //根据Id查询商品spu
+    @GetMapping("/spu/{id}")
+    Spu querySpuBySpuId(@PathVariable("id") Long id);
+
     @GetMapping("spu/page")
     PageResult<Spu> getListByPage(
             @RequestParam(value = "page", defaultValue = "1") Integer page,

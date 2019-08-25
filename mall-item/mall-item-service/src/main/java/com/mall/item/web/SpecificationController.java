@@ -35,4 +35,11 @@ public class SpecificationController {
         return ResponseEntity.ok(specificationService.queryParamList(gid, cid, searching));
     }
 
+    // 根据分类id查询SpecGroup集合
+    @GetMapping("groups")
+    public ResponseEntity<List<SpecGroup>> queryGroupListByGid(
+            @RequestParam(value = "cid", required = false) Long cid) {
+        return ResponseEntity.ok(specificationService.queryGroupListByGid(cid));
+    }
+
 }

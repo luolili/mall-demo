@@ -44,10 +44,16 @@ public class GoodsController {
         return ResponseEntity.ok(goodsService.queryDetailById(id));
     }
 
-    //根据spuId查询商品详情
+    //根据spuId查询商品sku集合
     @GetMapping("/sku/{spuId}")
     public ResponseEntity<List<Sku>> querySkuListBySpuId(@PathVariable("spuId") Long spuId) {
         return ResponseEntity.ok(goodsService.querySkuListBySpuId(spuId));
+    }
+
+    //根据Id查询商品spu
+    @GetMapping("/spu/{id}")
+    public ResponseEntity<Spu> querySpuBySpuId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(goodsService.querySpuById(id));
     }
 
 }

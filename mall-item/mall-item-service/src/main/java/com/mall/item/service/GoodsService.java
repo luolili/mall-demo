@@ -160,4 +160,19 @@ public class GoodsService {
 
         return list;
     }
+
+    public Spu querySpuById(Long id) {
+        Spu spu = spuMapper.selectByPrimaryKey(id);
+        if (spu == null) {
+            throw new MallException(ExceptionEnum.SPU__NOT_FOUND);
+        }
+        //sku list
+        List<Sku> skus = querySkuListBySpuId(id);
+
+        //spu detail
+        SpuDetail spuDetail = queryDetailById(id);
+        spu.setSkus(skus);
+        spu.setSpuDetail(spuDetail);
+        return spu;
+    }
 }
