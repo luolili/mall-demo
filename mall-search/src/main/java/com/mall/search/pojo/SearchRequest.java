@@ -2,11 +2,15 @@ package com.mall.search.pojo;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class SearchRequest {
 
     private String key;//关键字查询
-    private Integer page;
+    private Integer page;//当前页
+    private Map<String, String> filter;
+
     private static final int DEFAULT_ROWS = 10;
     private static final int DEFAULT_PAGE = 1;
 
