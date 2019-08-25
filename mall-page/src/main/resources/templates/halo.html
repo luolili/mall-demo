@@ -8,10 +8,30 @@
 <h1>
     msg: <span th:text="${msg}"> </span>
     <br>
-    test01: <span th:text="${user.getName()}"></span>,
+    <!-- text , utext-->
+    test01: <span th:text="${user.getName().toUpperCase()}"></span>,
     <span th:text="${user.getFriend().getAge()}"></span>,
     <span th:text="${user.age}"></span>,
     <span th:text="${user.friend}"></span>,
+
 </h1>
+<!-- 内置对象-->
+<span th:text="${#dates.createNow()}"></span>,
+<br>
+<span th:text="3 * 22"></span>,
+<span th:text="3 + 22"></span>,
+<span th:text="33 % 22"></span>,
+<span th:text="33 / 22"></span>,
+<span th:text="33 < 22"></span>,
+<br>
+<span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span>,
+<br>
+
+<ul>
+
+    <li th:each="user : ${users}">
+        <span th:text="${user.name}"></span>
+    </li>
+</ul>
 </body>
 </html>
