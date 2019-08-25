@@ -5,15 +5,23 @@ import com.mall.page.client.BrandClient;
 import com.mall.page.client.CategoryClient;
 import com.mall.page.client.GoodsClient;
 import com.mall.page.client.SpecificationClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class PageService {
 
     @Autowired
@@ -42,5 +50,24 @@ public class PageService {
         map.put("catagoryList", categoryList);
         map.put("specGroups", specGroups);
         return map;
+    }
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    public void createHtml(Long spuId) {
+        Context context = new Context();
+
+        context.setVariables(loadModel(spuId));
+        File file = new File("F:\\githubpro\\mall-demo\\upload", spuId + ".html");
+
+        try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
+            templateEngine.process("item", context, writer);
+        } catch (FileNotFoundException e) {
+            log.info("--文件未找到");
+        } catch (UnsupportedEncodingException e) {
+            log.info("--页面静态化异常");
+        }
+
     }
 }

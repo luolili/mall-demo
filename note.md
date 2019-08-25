@@ -42,3 +42,5 @@
  默认在classpath:/templates; 默认后缀.html.
 
 ctrl+shift+f9:recompile html: 不用重启项目。
+
+页面静态化：解决高并发：不经过服务器的渲染。
