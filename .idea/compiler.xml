@@ -15,6 +15,8 @@
         <module name="mall-registry" />
         <module name="mall-search" />
         <module name="mall-upload" />
+        <module name="mall-user-interface" />
+        <module name="mall-user-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -31,6 +33,9 @@
       <module name="mall-registry" options="-parameters" />
       <module name="mall-search" options="-parameters" />
       <module name="mall-upload" options="-parameters" />
+      <module name="mall-user" options="-parameters" />
+      <module name="mall-user-interface" options="-parameters" />
+      <module name="mall-user-service" options="-parameters" />
     </option>
   </component>
 </project>

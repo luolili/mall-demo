@@ -12,5 +12,8 @@
     <file url="file://$PROJECT_DIR$/mall-registry" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mall-search" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mall-upload" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-user" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-user/mall-user-interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-user/mall-user-service" charset="UTF-8" />
   </component>
 </project>
