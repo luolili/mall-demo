@@ -51,3 +51,11 @@ MQ。
 只发送商品id。
 
 docker run -d --hostname my-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3.7.3-management
+
+docker run --name some-redis -d redis:4 redis-server --appendonly yes
+1. redis 与memcache
+
+- redis 单线程；memcache:多thread
+- redis:多数据结构；memcache:k-v
+- redis: 有持久化；memcache:no
+- redis: 分片，有；无
