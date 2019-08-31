@@ -6,6 +6,11 @@ spring:
     allow-bean-definition-overriding: true #在sprigboot2.1之前默认是true
   application:
     name: search-service
+  rabbitmq:
+    host: 192.168.99.100
+    username: guest
+    password: quest
+
   data:
     elasticsearch:
       cluster-name: elasticsearch #默认名

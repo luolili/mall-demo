@@ -302,4 +302,16 @@ public class SearchService {
     }
 
 
+    public void createOrUpdateIndex(Long spuId) {
+
+        Spu spu = goodsClient.querySpuBySpuId(spuId);
+
+        Goods goods = buildGoods(spu);
+        goodsRepo.save(goods);
+
+    }
+
+    public void deleteIndex(Long spuId) {
+        goodsRepo.deleteById(spuId);
+    }
 }

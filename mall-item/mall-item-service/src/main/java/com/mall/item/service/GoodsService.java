@@ -77,6 +77,7 @@ public class GoodsService {
         }
     }
 
+    @Transactional
     public void saveGoods(Spu spu) {
         spu.setCreateTime(new Date());
         spu.setLastUpdateTime(spu.getCreateTime());
@@ -119,7 +120,7 @@ public class GoodsService {
 */
         saveSkuAndStock(spu);
         // 发送消息
-
+        amqpTemplate.convertAndSend("item.insert", spu.getId());
     }
 
     @Transactional
@@ -153,7 +154,7 @@ public class GoodsService {
             }
             saveSkuAndStock(spu);
             //发送 mq
-            
+            amqpTemplate.convertAndSend("item.update", spu.getId());
         }
 
 
