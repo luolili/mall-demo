@@ -26,6 +26,7 @@ public enum ExceptionEnum {
     GOODS_DETAIL_UPDATE_ERROR(500, "更新商品详情失败"),
     GOODS_ID_CANT_BE_NULL(400, "商品id不能为空"),
     USER_PARAM_ERROR(400, "用户的参数有误"),
+    USER_VERIFY_CODE(400, "用户的验证码有误"),
     ;
 
     private int code;

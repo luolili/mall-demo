@@ -1,13 +1,11 @@
 package com.mall.user.web;
 
+import com.mall.user.pojo.User;
 import com.mall.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -26,7 +24,12 @@ public class UserController {
     public ResponseEntity<Void> sendCode(String phone) {
         userService.sendCode(phone);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
+    @PostMapping("code")
+    public ResponseEntity<Void> register(User user, @RequestParam("code") String code) {
+        userService.register(user, code);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

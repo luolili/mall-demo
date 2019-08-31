@@ -5,11 +5,15 @@ import com.mall.common.exception.MallException;
 import com.mall.common.utils.NumberUtils;
 import com.mall.user.mapper.UserMapper;
 import com.mall.user.pojo.User;
+import com.mall.user.util.CodecUtils;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -54,5 +58,25 @@ public class UserService {
         // save code into redis
         String key = KEY_PREFIX + phone;
         stringRedisTemplate.opsForValue().set(key, code, 2, TimeUnit.MINUTES);
+    }
+
+    public void register(User user, String code) {
+
+        // 验证码验证
+        String aCode = stringRedisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
+
+        if (!StringUtils.equals(aCode, code)) {
+            throw new MallException(ExceptionEnum.USER_VERIFY_CODE);
+        }
+        // 对密码 加密
+        DigestUtils.md5Hex(user.getPassword());
+        String salt = "1;";
+        String md5Password = CodecUtils.md5Hex(user.getPassword(), salt);
+
+        user.setPassword(md5Password);
+        user.setSalt(salt);
+        user.setCreated(new Date());
+        userMapper.insert(user);
+
     }
 }
