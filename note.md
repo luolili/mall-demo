@@ -48,4 +48,6 @@ ctrl+shift+f9:recompile html: 不用重启项目。
 当后台的数据发生变化的时候，ES，html里面的数据也要改变？
 MQ。
 
+只发送商品id。
+
 docker run -d --hostname my-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3.7.3-management
