@@ -17,6 +17,7 @@
         <module>mall-search</module>
         <module>mall-page</module>
         <module>mall-user</module>
+        <module>mall-auth</module>
     </modules>
     <packaging>pom</packaging>
 

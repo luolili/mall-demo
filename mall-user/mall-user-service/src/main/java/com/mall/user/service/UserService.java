@@ -62,7 +62,6 @@ public class UserService {
     }
 
     public void register(User user, String code) {
-
         // 验证码验证
         String aCode = stringRedisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
 

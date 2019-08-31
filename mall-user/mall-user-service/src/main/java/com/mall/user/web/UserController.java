@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
+/**
+ * 每个service/接口  是无状态的
+ * 登陆：
+ * json web token : jwt 授权中心， rsa加密
+ */
 @RestController
 public class UserController {
     @Autowired
@@ -32,6 +37,7 @@ public class UserController {
         return ResponseEntity.ok(userService.checkData(data, type));
 
     }
+
     @PostMapping("code")
     public ResponseEntity<Void> sendCode(String phone) {
         userService.sendCode(phone);
@@ -51,7 +57,6 @@ public class UserController {
         userService.register(user, code);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 
 
 }

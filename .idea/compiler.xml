@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="es-demo" />
+        <module name="mall-auth-common" />
+        <module name="mall-auth-service" />
         <module name="mall-common" />
         <module name="mall-gateway" />
         <module name="mall-item-interface" />
