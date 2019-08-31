@@ -1,0 +1,39 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: user-service
+  redis:
+    host: 172.25.34.1
+  rabbitmq:
+    host: 192.168.99.100
+    username: guest
+    password: quest
+    template:
+      retry:
+        enabled: true
+        initial-interval: 12000ms
+        max-interval: 32000ms
+        multiplier: 2
+      exchange: mall.item.exchange
+    publisher-confirms: true
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1/springcloud-mall?serverTimezone=UTC&characterEncoding=utf-8&userSSL=false
+    username: root
+    password: 123
+    driver-class-name: com.mysql.jdbc.Driver
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.mall.user.pojo
