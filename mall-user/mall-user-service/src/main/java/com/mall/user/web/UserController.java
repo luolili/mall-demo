@@ -3,9 +3,14 @@ package com.mall.user.web;
 import com.mall.user.pojo.User;
 import com.mall.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -27,7 +32,14 @@ public class UserController {
     }
 
     @PostMapping("code")
-    public ResponseEntity<Void> register(User user, @RequestParam("code") String code) {
+    public ResponseEntity<Void> register(@Valid User user,
+                                         BindingResult result,
+                                         @RequestParam("code") String code) {
+        if (result.hasErrors()) {
+            throw new RuntimeException(result.getFieldErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.joining("|")));
+        }
         userService.register(user, code);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
