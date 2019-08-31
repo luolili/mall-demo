@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -66,7 +67,7 @@ public class UserService {
         String aCode = stringRedisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
 
         if (!StringUtils.equals(aCode, code)) {
-            throw new MallException(ExceptionEnum.USER_VERIFY_CODE);
+            throw new MallException(ExceptionEnum.USER_PARAM_ERROR);
         }
         // 对密码 加密
         DigestUtils.md5Hex(user.getPassword());
@@ -78,5 +79,21 @@ public class UserService {
         user.setCreated(new Date());
         userMapper.insert(user);
 
+    }
+
+    public User queryByUsernameAndPassword(String username, String password) {
+        User user = new User();
+
+        user.setUsername(username);
+        //user.setPassword(password);
+        User one = userMapper.selectOne(user);
+        if (one == null) {
+            throw new MallException(ExceptionEnum.USER_INVALID);
+        }
+
+        if (!StringUtils.equals(one.getPassword(), CodecUtils.md5Hex(password, user.getSalt()))) {
+            throw new MallException(ExceptionEnum.USER_INVALID);
+        }
+        return one;
     }
 }
