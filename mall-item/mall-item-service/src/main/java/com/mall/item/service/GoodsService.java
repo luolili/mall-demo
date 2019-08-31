@@ -9,6 +9,7 @@ import com.mall.item.mapper.*;
 import com.mall.item.pojo.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,8 @@ public class GoodsService {
     private CategoryService categoryService;
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     public PageResult<Spu> querySpuByPage(Integer page, Integer rows, Boolean saleable, String key) {
         PageHelper.startPage(page, rows);
@@ -52,7 +55,6 @@ public class GoodsService {
         if (CollectionUtils.isEmpty(list)) {
             throw new MallException(ExceptionEnum.GOODS_NOT_FOUND);
         }
-
         loadCategoryAndBrandName(list);
         PageInfo<Spu> info = new PageInfo<>(list);
         return new PageResult<>(info.getTotal(), list);
@@ -76,14 +78,12 @@ public class GoodsService {
     }
 
     public void saveGoods(Spu spu) {
-
         spu.setCreateTime(new Date());
         spu.setLastUpdateTime(spu.getCreateTime());
         spu.setId(null);
         spu.setSaleable(true);
         spu.setValid(false);
         int count = spuMapper.insert(spu);
-        List<Stock> stockList = new ArrayList<>();
         if (count != 1) {
             throw new MallException(ExceptionEnum.GOODS_SAVE_ERROR);
         }
@@ -91,6 +91,7 @@ public class GoodsService {
         SpuDetail spuDetail = spu.getSpuDetail();
         spuDetail.setSpuId(spu.getId());
         spuDetailMapper.insert(spuDetail);
+      /*  List<Stock> stockList = new ArrayList<>();
         //sku
         List<Sku> skus = spu.getSkus();
         for (Sku sku : skus) {
@@ -115,14 +116,80 @@ public class GoodsService {
         if (count != stockList.size()) {
             throw new MallException(ExceptionEnum.GOODS_SAVE_ERROR);
         }
+*/
+        saveSkuAndStock(spu);
+        // 发送消息
 
     }
 
+    @Transactional
+    public void updateGoods(Spu spu) {
+        if (spu.getId() == null) {
+            throw new MallException(ExceptionEnum.GOODS_ID_CANT_BE_NULL);
+        }
+        Sku sku = new Sku();
+        sku.setSpuId(spu.getId());
+        List<Sku> skuList = skuMapper.select(sku);
+
+        if (!CollectionUtils.isEmpty(skuList)) {
+            //  根据实体的属性作为条件 删除sku
+            skuMapper.delete(sku);
+            List<Long> ids = skuList.stream().map(Sku::getId).collect(Collectors.toList());
+            // 删除 stock
+            stockMapper.deleteByIdList(ids);
+            // 修改 spu
+            spu.setValid(null);
+            spu.setSaleable(null);
+            spu.setLastUpdateTime(new Date());
+            spu.setCreateTime(null);
+            int count = spuMapper.updateByPrimaryKeySelective(spu);
+
+            if (count != 1) {
+                throw new MallException(ExceptionEnum.GOODS_UPDATE_ERROR);
+            }
+            count = spuDetailMapper.updateByPrimaryKeySelective(spu.getSpuDetail());
+            if (count != 1) {
+                throw new MallException(ExceptionEnum.GOODS_DETAIL_UPDATE_ERROR);
+            }
+            saveSkuAndStock(spu);
+            //发送 mq
+            
+        }
+
+
+    }
+
+    private void saveSkuAndStock(Spu spu) {
+        int count = 0;
+        List<Stock> stockList = new ArrayList<>();
+        //sku
+        List<Sku> skus = spu.getSkus();
+        for (Sku sku : skus) {
+            //保存sku
+            sku.setCreateTime(new Date());
+            sku.setLastUpdateTime(sku.getCreateTime());
+            sku.setSpuId(spu.getId());
+            count = skuMapper.insert(sku);
+            if (count != 1) {
+                throw new MallException(ExceptionEnum.GOODS_SAVE_ERROR);
+            }
+            //保存stock
+            Stock stock = new Stock();
+            stock.setSkuId(sku.getId());
+            stock.setStock(sku.getStock());
+            //stockMapper.insert(stock);
+            stockList.add(stock);
+        }
+        //批量新增stock
+        count = stockMapper.insertList(stockList);
+        if (count != stockList.size()) {
+            throw new MallException(ExceptionEnum.GOODS_SAVE_ERROR);
+        }
+    }
     public SpuDetail queryDetailById(Long id) {
         SpuDetail spuDetail = new SpuDetail();
         spuDetail.setSpuId(id);
         SpuDetail res = spuDetailMapper.selectByPrimaryKey(spuDetail);
-
         if (res == null) {
             throw new MallException(ExceptionEnum.SPU_DETAIL_NOT_FOUND);
         }
@@ -156,7 +223,6 @@ public class GoodsService {
         Map<Long, Integer> stockMap =
                 stockList.stream().collect(Collectors.toMap(Stock::getSkuId, Stock::getStock));
         list.forEach(i -> i.setStock(stockMap.get(i.getId())));
-
 
         return list;
     }

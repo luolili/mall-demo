@@ -22,6 +22,9 @@ public enum ExceptionEnum {
     UPLOAD_ERROR(500,"文件上传出错"),
     INVALID_FILE_TYPE(400,"无效的文件类型"),
     GOODS_SAVE_ERROR(500, "保存商品失败"),
+    GOODS_UPDATE_ERROR(500, "更新商品失败"),
+    GOODS_DETAIL_UPDATE_ERROR(500, "更新商品详情失败"),
+    GOODS_ID_CANT_BE_NULL(500, "商品id不能为空"),
     ;
 
     private int code;
