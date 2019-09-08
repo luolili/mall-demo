@@ -1,9 +1,9 @@
 package com.mall.item.mapper;
 
 
+import com.mall.common.mapper.BaseMapper;
 import com.mall.item.pojo.SpecParam;
-import tk.mybatis.mapper.common.Mapper;
 
-public interface SpecParamMapper extends Mapper<SpecParam> {
+public interface SpecParamMapper extends BaseMapper<SpecParam> {
 
 }

@@ -1,9 +1,9 @@
 package com.mall.item.mapper;
 
 
+import com.mall.common.mapper.BaseMapper;
 import com.mall.item.pojo.SpuDetail;
-import tk.mybatis.mapper.common.Mapper;
 
-public interface SpuDetailMapper extends Mapper<SpuDetail> {
+public interface SpuDetailMapper extends BaseMapper<SpuDetail> {
 
 }

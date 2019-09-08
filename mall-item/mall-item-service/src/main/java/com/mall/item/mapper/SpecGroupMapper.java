@@ -1,9 +1,9 @@
 package com.mall.item.mapper;
 
 
+import com.mall.common.mapper.BaseMapper;
 import com.mall.item.pojo.SpecGroup;
-import tk.mybatis.mapper.common.Mapper;
 
-public interface SpecGroupMapper extends Mapper<SpecGroup> {
+public interface SpecGroupMapper extends BaseMapper<SpecGroup> {
 
 }
