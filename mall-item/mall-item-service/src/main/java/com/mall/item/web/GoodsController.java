@@ -50,6 +50,10 @@ public class GoodsController {
         return ResponseEntity.ok(goodsService.querySkuListBySpuId(spuId));
     }
 
+    @GetMapping("/list/ids")
+    public ResponseEntity<List<Sku>> querySkuListBySkuIds(@RequestParam("ids") List<Long> ids) {
+        return ResponseEntity.ok(goodsService.querySkuListBySkuIds(ids));
+    }
     //根据Id查询商品spu
     @GetMapping("/spu/{id}")
     public ResponseEntity<Spu> querySpuBySpuId(@PathVariable("id") Long id) {

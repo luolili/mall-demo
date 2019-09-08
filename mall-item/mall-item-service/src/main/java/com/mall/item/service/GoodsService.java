@@ -242,4 +242,12 @@ public class GoodsService {
         spu.setSpuDetail(spuDetail);
         return spu;
     }
+
+    public List<Sku> querySkuListBySkuIds(List<Long> ids) {
+        List<Sku> skuList = skuMapper.selectByIdList(ids);
+        if (CollectionUtils.isEmpty(skuList)) {
+            throw new MallException(ExceptionEnum.SKU_NOT_FOUND);
+        }
+        return skuList;
+    }
 }
