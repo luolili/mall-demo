@@ -23,7 +23,6 @@ import java.util.Map;
 @Service
 @Slf4j
 public class PageService {
-
     @Autowired
     private GoodsClient goodsClient;
     @Autowired
@@ -57,7 +56,6 @@ public class PageService {
 
     public void createHtml(Long spuId) {
         Context context = new Context();
-
         context.setVariables(loadModel(spuId));
         File file = new File("F:\\githubpro\\mall-demo\\upload", spuId + ".html");
 

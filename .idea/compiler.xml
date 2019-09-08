@@ -25,6 +25,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="es-demo" options="-parameters" />
+      <module name="mall-auth-common" options="-parameters" />
+      <module name="mall-auth-service" options="-parameters" />
       <module name="mall-common" options="-parameters" />
       <module name="mall-demo" options="-parameters" />
       <module name="mall-gateway" options="-parameters" />
