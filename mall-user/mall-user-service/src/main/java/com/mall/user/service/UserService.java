@@ -1,17 +1,22 @@
 package com.mall.user.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mall.common.enums.ExceptionEnum;
 import com.mall.common.exception.MallException;
 import com.mall.common.utils.NumberUtils;
+import com.mall.common.vo.PageResult;
 import com.mall.user.mapper.UserMapper;
 import com.mall.user.pojo.User;
 import com.mall.user.util.CodecUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +34,24 @@ public class UserService {
     private static final String KEY_PREFIX = "sms.verify.code";
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    public PageResult<User> query(Integer page, Integer rows, Boolean saleable, String key) {
+        PageHelper.startPage(page, rows);
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (saleable != null) {
+            criteria.andEqualTo("saleable", saleable);
+        }
+
+        List<User> list = userMapper.selectByExample(example);
+
+        if (CollectionUtils.isEmpty(list)) {
+            throw new MallException(ExceptionEnum.GOODS_NOT_FOUND);
+        }
+        PageInfo<User> info = new PageInfo<>(list);
+        return new PageResult<>(info.getTotal(), list);
+
+    }
     public Boolean checkData(String data, Integer type) {
         // 判断数据类型
         User user = new User();

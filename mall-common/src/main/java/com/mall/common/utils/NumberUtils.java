@@ -11,6 +11,5 @@ public class NumberUtils {
     public static void main(String[] args) {
         String s = generateCode(6);
 
-        System.out.println(s);
     }
 }

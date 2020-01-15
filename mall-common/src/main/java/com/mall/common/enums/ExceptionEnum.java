@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 异常枚举
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
