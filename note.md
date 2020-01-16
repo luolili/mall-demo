@@ -59,3 +59,6 @@ docker run --name some-redis -d redis:4 redis-server --appendonly yes
 - redis:多数据结构；memcache:k-v
 - redis: 有持久化；memcache:no
 - redis: 分片，有；无
+
+
+##redis这里会链接不上。

@@ -52,6 +52,15 @@ public class UserService {
         return new PageResult<>(info.getTotal(), list);
 
     }
+
+    public User getOne(Long id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
+
+    public void updateLikedCount(User user) {
+
+        userMapper.updateByPrimaryKey(user);
+    }
     public Boolean checkData(String data, Integer type) {
         // 判断数据类型
         User user = new User();

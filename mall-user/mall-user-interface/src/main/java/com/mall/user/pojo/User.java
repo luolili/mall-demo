@@ -16,6 +16,7 @@ public class User {
     @Id
     @KeySql(useGeneratedKeys = true)
     private Long id;
+    private Integer likedNum;
     @NotEmpty
     private String username;
     @JsonIgnore
@@ -27,4 +28,5 @@ public class User {
     private Date created;
     @JsonIgnore
     private String salt;//密码的盐
+
 }
