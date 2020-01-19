@@ -35,6 +35,20 @@ public class UserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    public User getUserByUsernameAndPassword(String username, String password) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
+            criteria.andEqualTo("username", username);
+            criteria.andEqualTo("password", password);
+        }
+        List<User> users = userMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(users)) {
+            return null;
+        }
+        return users.get(0);
+    }
+
     public PageResult<User> query(Integer page, Integer rows, Boolean saleable, String key) {
         PageHelper.startPage(page, rows);
         Example example = new Example(User.class);

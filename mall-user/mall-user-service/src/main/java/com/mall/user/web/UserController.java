@@ -1,5 +1,7 @@
 package com.mall.user.web;
 
+import com.mall.common.constants.CommonConst;
+import com.mall.common.utils.ResultVO;
 import com.mall.common.vo.PageResult;
 import com.mall.user.pojo.User;
 import com.mall.user.service.UserService;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
@@ -22,6 +25,19 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @PostMapping("user/login")
+    public ResultVO login(@RequestBody User user, HttpSession session) {
+        String username = user.getUsername();
+        String pwd = user.getPassword();
+        User u = userService.getUserByUsernameAndPassword(username, pwd);
+        if (u == null) {
+            return new ResultVO(400);
+        } else {
+            session.setAttribute(CommonConst.USER_SESSION, u);
+            return new ResultVO(200);
+        }
+    }
 
     @GetMapping("user/page")
     public ResponseEntity<PageResult<User>> getListByPage(
