@@ -16,7 +16,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class UploadService {
-    private static final List<String> ALLOW_TYPES = Arrays.asList("image/png","image/jpng");
+    private static final List<String> ALLOW_TYPES = Arrays.asList("image/png", "image/jpng");
+
     public String uploadImage(MultipartFile file) {
         try {
             //文件类型校验
@@ -24,21 +25,18 @@ public class UploadService {
             if (!ALLOW_TYPES.contains(contentType)) {
                 throw new MallException(ExceptionEnum.INVALID_FILE_TYPE);
             }
-
-            //文件类型校验
+            //文件校验
             BufferedImage image = ImageIO.read(file.getInputStream());
             if (image == null) {
                 throw new MallException(ExceptionEnum.INVALID_FILE_TYPE);
             }
-
-
-            File dest = new File("F:\\githubpro\\mall-demo\\upload",file.getOriginalFilename());
+            //获得文件存放的位置
+            File dest = new File("F:\\githubpro\\mall-demo\\upload", file.getOriginalFilename());
             file.transferTo(dest);
-            return "http://image.mall.com"+file.getOriginalFilename();
+            return "http://image.mall.com" + file.getOriginalFilename();
         } catch (IOException e) {
-           log.error("上传文件失败",e);
+            log.error("上传文件失败", e);
             throw new MallException(ExceptionEnum.UPLOAD_ERROR);
-
         }
 
     }
