@@ -6,7 +6,7 @@ import com.mall.common.enums.ExceptionEnum;
 import com.mall.common.exception.MallException;
 import com.mall.common.utils.NumberUtils;
 import com.mall.common.vo.PageResult;
-import com.mall.event.UserRegisterEvent;
+import com.mall.user.event.UserRegisterEvent;
 import com.mall.user.mapper.UserMapper;
 import com.mall.user.pojo.User;
 import com.mall.user.util.CodecUtils;

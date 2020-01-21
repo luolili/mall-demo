@@ -61,7 +61,7 @@ public class UserController {
      public ResponseEntity<Void> sendCode(String phone) {
          userService.sendCode(phone);
          return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-     }
+
  */
     @PostMapping("code")
     public ResponseEntity<Void> register(@Valid User user,

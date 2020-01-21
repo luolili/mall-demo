@@ -1,4 +1,4 @@
-package com.mall.event;
+package com.mall.user.event;
 
 import lombok.Data;
 import org.springframework.context.ApplicationEvent;

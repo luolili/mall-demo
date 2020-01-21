@@ -1,6 +1,6 @@
-package com.mall.listener;
+package com.mall.user.listener;
 
-import com.mall.event.UserRegisterEvent;
+import com.mall.user.event.UserRegisterEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
