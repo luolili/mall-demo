@@ -6,6 +6,7 @@ import com.mall.common.enums.ExceptionEnum;
 import com.mall.common.exception.MallException;
 import com.mall.common.utils.NumberUtils;
 import com.mall.common.vo.PageResult;
+import com.mall.event.UserRegisterEvent;
 import com.mall.user.mapper.UserMapper;
 import com.mall.user.pojo.User;
 import com.mall.user.util.CodecUtils;
@@ -14,6 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -26,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
+    @Autowired
+    private ApplicationContext applicationContext;
     @Autowired
     private UserMapper userMapper;
 
@@ -128,7 +132,6 @@ public class UserService {
 
     public User queryByUsernameAndPassword(String username, String password) {
         User user = new User();
-
         user.setUsername(username);
         //user.setPassword(password);
         User one = userMapper.selectOne(user);
@@ -140,5 +143,10 @@ public class UserService {
             throw new MallException(ExceptionEnum.USER_INVALID);
         }
         return one;
+    }
+
+    public void register() {
+
+        applicationContext.publishEvent(new UserRegisterEvent(this, "1"));
     }
 }
