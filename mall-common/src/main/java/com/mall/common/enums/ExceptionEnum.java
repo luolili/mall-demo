@@ -29,6 +29,7 @@ public enum ExceptionEnum {
     GOODS_DETAIL_UPDATE_ERROR(500, "更新商品详情失败"),
     GOODS_ID_CANT_BE_NULL(400, "商品id不能为空"),
     USER_PARAM_ERROR(400, "用户的参数有误"),
+    USERNAME_REGISTERED(400, "该用户名已注册"),
     USER_INVALID(400, "用户名或密码有误"),
     ;
 

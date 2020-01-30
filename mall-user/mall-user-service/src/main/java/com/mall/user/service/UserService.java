@@ -79,6 +79,7 @@ public class UserService {
 
         userMapper.updateByPrimaryKey(user);
     }
+
     public Boolean checkData(String data, Integer type) {
         // 判断数据类型
         User user = new User();
@@ -112,6 +113,11 @@ public class UserService {
     }
 
     public void register(User user, String code) {
+        //验证用户名是否已经注册
+        User registeredUser = queryByUsernameAndPassword(user.getUsername(), null);
+        if (registeredUser != null) {
+            throw new MallException(ExceptionEnum.USERNAME_REGISTERED);
+        }
         // 验证码验证
         String aCode = stringRedisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
 
@@ -133,12 +139,13 @@ public class UserService {
     public User queryByUsernameAndPassword(String username, String password) {
         User user = new User();
         user.setUsername(username);
-        //user.setPassword(password);
         User one = userMapper.selectOne(user);
         if (one == null) {
             throw new MallException(ExceptionEnum.USER_INVALID);
         }
-
+        if (StringUtils.isBlank(password)) {
+            return one;
+        }
         if (!StringUtils.equals(one.getPassword(), CodecUtils.md5Hex(password, user.getSalt()))) {
             throw new MallException(ExceptionEnum.USER_INVALID);
         }
@@ -148,5 +155,15 @@ public class UserService {
     public void register() {
 
         applicationContext.publishEvent(new UserRegisterEvent(this, "1"));
+    }
+
+    public boolean add(User user) {
+
+        return userMapper.insert(user) == 1;
+    }
+
+    public boolean edit(User user) {
+
+        return userMapper.updateByPrimaryKey(user) == 1;
     }
 }

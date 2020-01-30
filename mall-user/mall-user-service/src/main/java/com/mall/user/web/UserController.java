@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 /**
- * 每个service/接口  是无状态的
+ * 每个service接口  是无状态的
  * 登陆：
  * json web token : jwt 授权中心， rsa加密
  */
@@ -37,6 +37,22 @@ public class UserController {
             session.setAttribute(CommonConst.USER_SESSION, u);
             return new ResultVO(200);
         }
+    }
+
+    @PostMapping("user/add")
+    public ResultVO add(@RequestBody User user) {
+        if (userService.add(user)) {
+            return new ResultVO(200);
+        }
+        return new ResultVO(400);
+    }
+
+    @PutMapping("user/edit")
+    public ResultVO edit(@RequestBody User user) {
+        if (userService.edit(user)) {
+            return new ResultVO(200);
+        }
+        return new ResultVO(400);
     }
 
     @GetMapping("user/page")
