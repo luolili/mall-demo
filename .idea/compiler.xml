@@ -9,6 +9,8 @@
         <module name="es-demo" />
         <module name="mall-auth-common" />
         <module name="mall-auth-service" />
+        <module name="mall-book-interface" />
+        <module name="mall-book-service" />
         <module name="mall-common" />
         <module name="mall-gateway" />
         <module name="mall-item-interface" />
@@ -27,6 +29,8 @@
       <module name="es-demo" options="-parameters" />
       <module name="mall-auth-common" options="-parameters" />
       <module name="mall-auth-service" options="-parameters" />
+      <module name="mall-book-interface" options="-parameters" />
+      <module name="mall-book-service" options="-parameters" />
       <module name="mall-common" options="-parameters" />
       <module name="mall-demo" options="-parameters" />
       <module name="mall-gateway" options="-parameters" />

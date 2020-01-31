@@ -55,13 +55,29 @@ public class UserController {
         return new ResultVO(400);
     }
 
+    @PutMapping("user/reset")
+    public ResultVO resetPassword(String email, String newPassword) {
+        if (userService.resetPassword(email, newPassword)) {
+            return new ResultVO(200);
+        }
+        return new ResultVO(400);
+    }
+
+
+    @DeleteMapping("user/del")
+    public ResultVO del(User user) {
+        if (userService.delete(user)) {
+            return new ResultVO(200);
+        }
+        return new ResultVO(400);
+    }
+
     @GetMapping("user/page")
     public ResponseEntity<PageResult<User>> getListByPage(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "5") Integer rows,
-            @RequestParam(value = "saleable", required = false) Boolean saleable,
             @RequestParam(value = "key", required = false) String key) {
-        return ResponseEntity.ok(userService.query(page, rows, saleable, key));
+        return ResponseEntity.ok(userService.query(page, rows, key));
     }
 
 

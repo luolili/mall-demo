@@ -53,14 +53,14 @@ public class UserService {
         return users.get(0);
     }
 
-    public PageResult<User> query(Integer page, Integer rows, Boolean saleable, String key) {
+    public PageResult<User> query(Integer page, Integer rows, String key) {
         PageHelper.startPage(page, rows);
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        if (saleable != null) {
-            criteria.andEqualTo("saleable", saleable);
+        if (StringUtils.isNotBlank(key)) {
+            criteria.andLike("username", "%" + key + "%");
+            criteria.orLike("phone", "%" + key + "%");
         }
-
         List<User> list = userMapper.selectByExample(example);
 
         if (CollectionUtils.isEmpty(list)) {
@@ -164,6 +164,22 @@ public class UserService {
 
     public boolean edit(User user) {
 
+        return userMapper.updateByPrimaryKey(user) == 1;
+    }
+
+    public boolean resetPassword(String email, String newPassword) {
+        User user = new User();
+        user.setEmail(email);
+        User one = userMapper.selectOne(user);
+        if (one != null) {
+            one.setPassword(CodecUtils.md5Hex(newPassword, one.getSalt()));
+            return userMapper.updateByPrimaryKey(user) == 1;
+        }
+        return false;
+    }
+
+    public boolean delete(User user) {
+        user.setDeleted(1);
         return userMapper.updateByPrimaryKey(user) == 1;
     }
 }

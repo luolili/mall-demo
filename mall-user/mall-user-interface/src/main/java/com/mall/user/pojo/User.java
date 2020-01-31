@@ -19,6 +19,7 @@ public class User {
     private Integer likedNum;
     @NotEmpty
     private String username;
+    private String email;
     @JsonIgnore
     private String password;//加密后save
     @Pattern(regexp =
@@ -29,5 +30,7 @@ public class User {
     private Date created;
     @JsonIgnore
     private String salt;//密码的盐
+    // 1删除0未删除
+    private Integer deleted;
 
 }
