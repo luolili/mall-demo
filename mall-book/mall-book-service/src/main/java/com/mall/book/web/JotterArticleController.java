@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/api/jotter/article")
+@RequestMapping("/api/article")
 public class JotterArticleController {
     @Resource
     JotterArticleService jotterArticleService;
@@ -31,9 +31,9 @@ public class JotterArticleController {
         return new ResultVO(400);
     }
 
-    @PostMapping("/get")
-    public ResponseEntity getOne(Long articleId) {
-        return ResponseEntity.ok(jotterArticleService.getOne(articleId));
+    @GetMapping("/get/{id}")
+    public ResponseEntity getOne(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(jotterArticleService.getOne(id));
     }
 
     @PutMapping("/edit")
