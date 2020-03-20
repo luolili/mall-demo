@@ -95,6 +95,15 @@ public class UserController {
          return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
  */
+
+    /**
+     * regist
+     *
+     * @param user
+     * @param result
+     * @param code
+     * @return
+     */
     @PostMapping("code")
     public ResponseEntity<Void> register(@Valid User user,
                                          BindingResult result,
