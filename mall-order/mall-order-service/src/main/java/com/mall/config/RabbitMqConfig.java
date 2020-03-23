@@ -23,6 +23,7 @@ import java.util.Map;
 @Slf4j
 public class RabbitMqConfig {
 
+    public static final String MIAOSHA_QUEUE = "miaosha_queue";
     @Autowired
     private Environment env;
     // amqp rabbit

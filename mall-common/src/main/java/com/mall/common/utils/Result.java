@@ -18,6 +18,9 @@ public class Result<T> {
         return new Result<T>(200, "success", data);
     }
 
+    public static <T> Result<T> success() {
+        return new Result<T>(200, "success", null);
+    }
     public static <T> Result<T> error(CodeMsg codeMsg) {
         return new Result<T>(codeMsg.getCode(), codeMsg.getMsg(), null);
     }

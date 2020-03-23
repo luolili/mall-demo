@@ -43,6 +43,9 @@ public class CodeMsg {
     //public static CodeMsg success = new CodeMsg(0, "success");
     //miaosha:5005XX
     public static CodeMsg MIAOSHA_OVER = new CodeMsg(500500, "MIAOSHA_OVER");
+    public static CodeMsg MIAOSHA_GOODS_NOT_EXIST = new CodeMsg(500501, "MIAOSHA_GOODS_NOT_EXIST");
+    public static CodeMsg MIAOSHA_STOCK_NOT_ENOUGH = new CodeMsg(500501, "MIAOSHA_STOCK_NOT_ENOUGH");
+    public static CodeMsg MIAOSHA_STOCK_DECR_ERROR = new CodeMsg(500501, "MIAOSHA_STOCK_DECR_ERROR");
     public static CodeMsg REPEATE_MIAOSHA = new CodeMsg(500510, "repeate_miaosha");
 
 }
